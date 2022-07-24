@@ -1,0 +1,16 @@
+server:
+  port: 9095
+
+
+spring:
+  application:
+    name: teachers-service
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:9090/eureka/
+  instance:
+    hostname: localhost
