@@ -1,13 +1,16 @@
 package com.example.courses.mapper;
 
-import com.example.courses.dto.CourseRequest;
-import com.example.courses.dto.CourseResponse;
-import com.example.courses.entity.Course;
+import java.util.List;
 
-public interface CourseMapper {
+public interface CourseMapper<T,T1,T2> {
 
-    CourseResponse entityToResponse(Course entity);
-    CourseResponse RequestToEntity(CourseRequest request);
+    T entityToResponse(T1 entity);
+
+    List<T> allEntityToResponse(List<T1> entities);
+    T1  requestToEntity(T2 request);
+
+    List<T1> allRequestToEntity(List<T2> entities);
+
 
 
 }

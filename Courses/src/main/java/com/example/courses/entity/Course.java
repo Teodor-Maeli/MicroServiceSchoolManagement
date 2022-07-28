@@ -4,6 +4,7 @@ package com.example.courses.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
@@ -12,17 +13,18 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Course {
+public class Course implements Serializable {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(updatable = false)
     private Long id;
-    @Column(name = "course_name")
+    @Column(unique = true,nullable = false)
     private String name;
-    @Column(name = "course_duration")
+    @Column(nullable = false)
     private double duration;
-    @Column(name = "course_teacher")
+    private Long teacherId;
     private String teacher;
 
 

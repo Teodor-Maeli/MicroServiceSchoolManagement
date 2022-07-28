@@ -4,6 +4,8 @@ package com.example.enrollments.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,21 +15,23 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Enrollment {
+public class Enrollment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "Course_Name")
-    private String course;
-    @Column(name = "Course_ID")
+
+    @Column(nullable = false)
     private Long courseId;
-    @Column(name = "Student_Name")
-    private String student;
-    @Column(name = "Student ID")
+
+    @Column(nullable = false)
     private Long studentId;
+    @Column(nullable = false)
+    private String studentName;
+
+
     @ElementCollection
-    private List<Double> grades;
+    private List<Double> grades = new ArrayList<Double>();
 
     @Override
     public boolean equals(Object o) {

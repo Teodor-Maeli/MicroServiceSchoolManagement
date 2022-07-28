@@ -3,12 +3,12 @@ server:
 
 spring:
   application:
-    name: gateway-service
+    name: GATEWAY-SERVICE
   cloud:
     gateway:
       routes:
-        - id: courses-service
-          uri: lb://courses-service
+        - id: COURSES-SERVICE
+          uri: lb://COURSES-SERVICE
           predicates:
             - Path=/courses/**
             - Method=GET,POST,PATCH,DELETE
@@ -17,8 +17,8 @@ spring:
               args:
                 name: coursesService
                 fallbackUri: forward:/error
-        - id: teachers-service
-          uri: lb://teachers-service
+        - id: TEACHERS-SERVICE
+          uri: lb://TEACHERS-SERVICE
           predicates:
             - Path=/teachers/**
             - Method=GET,POST,PATCH,DELETE
@@ -27,8 +27,8 @@ spring:
               args:
                 name: teachersService
                 fallbackUri: forward:/error
-        - id: enrollments-service
-          uri: lb://enrollments-service
+        - id: ENROLLMENTS-SERVICE
+          uri: lb://ENROLLMENTS-SERVICE
           predicates:
             - Path=/enrollments/**
             - Method=GET,POST,PATCH,DELETE
@@ -37,8 +37,8 @@ spring:
               args:
                 name: enrollmentsService
                 fallbackUri: forward:/error
-        - id: students-service
-          uri: lb://students-service
+        - id: STUDENTS-SERVICE
+          uri: lb://STUDENTS-SERVICE
           predicates:
             - Path=/students/**
             - Method=GET,POST,PATCH,DELETE
@@ -53,7 +53,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:9090/eureka/
+      defaultZone: http://localhost:8761/eureka/
   instance:
     hostname: localhost
 
