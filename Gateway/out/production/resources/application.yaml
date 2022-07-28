@@ -1,0 +1,96 @@
+server:
+  port: 9091
+
+spring:
+  application:
+    name: GATEWAY-SERVICE
+  cloud:
+    gateway:
+      routes:
+        - id: COURSES-SERVICE
+          uri: lb://COURSES-SERVICE
+          predicates:
+            - Path=/courses/**
+            - Method=GET,POST,PATCH,DELETE
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: coursesService
+                fallbackUri: forward:/error
+        - id: TEACHERS-SERVICE
+          uri: lb://TEACHERS-SERVICE
+          predicates:
+            - Path=/teachers/**
+            - Method=GET,POST,PATCH,DELETE
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: teachersService
+                fallbackUri: forward:/error
+        - id: ENROLLMENTS-SERVICE
+          uri: lb://ENROLLMENTS-SERVICE
+          predicates:
+            - Path=/enrollments/**
+            - Method=GET,POST,PATCH,DELETE
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: enrollmentsService
+                fallbackUri: forward:/error
+        - id: STUDENTS-SERVICE
+          uri: lb://STUDENTS-SERVICE
+          predicates:
+            - Path=/students/**
+            - Method=GET,POST,PATCH,DELETE
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: studentsService
+                fallbackUri: forward:/error
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+
+
+resilience4j:
+  CircuitBreaker:
+    configs:
+      default:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 1
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 5
+        sliding-window-size: 10
+        sliding-window-type: count_based
+    instances:
+      coursesService:
+        base-config: default
+      enrollmentsService:
+        base-config: default
+      teachersService:
+        base-config: default
+      studentsService:
+        base-config: default
+
+
